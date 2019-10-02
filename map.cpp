@@ -1,3 +1,6 @@
+//This is just a test that i was doing to check the working of a map on a table.
+//I am working on making a 1D map currently so i will let you know soon.
+
 #include <iostream>
 #include <iterator>
 #include <map>
@@ -33,3 +36,4 @@ for (cursor = map1.begin(); cursor != map1.end(); cursor++)
 }
 
 }
+
