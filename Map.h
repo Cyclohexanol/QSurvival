@@ -5,10 +5,10 @@
 
 class Map {
 	private:
-
+		char ** grid;
 
 	public:
-		char ** grid;
+
 		Map();
 
 		void print();

@@ -44,10 +44,10 @@ char Map::getCell(int x, int y) {
 }
 
 
-int main (int argc, char *argv[])
+int main (int argc, char *argv[]) {
 
-{ 
     Map * m = new Map();
     m->print();
     return 0;
+    
 }
