@@ -1,18 +1,35 @@
 #ifndef __MAP_H__
 #define __MAP_H__
+#include <vector> // Using vector to be able to resize the array according to the input.
 
-#define GRID_SIZE 10
+enum Areas // Using enum to pre define the data type.
 
-class Map {
+{
+  Land=1,
+	Water=2,
+  Food=3,
+	OutOfArea=-1
+};
+
+// Creating the class for the Grid/Map.
+
+class Map
+
+{
 	private:
-		char ** grid;
+
+		std::vector<Areas> grid; // Applying the vector
+		int row;
+		int col;
 
 	public:
 
-		Map();
+		Map(int x, int y);
+		void addArea(int x, int y, Areas v, int offset_x=0, int offset_y=0); // Using offsets to limit the premacies
 
 		void print();
 		char getCell(int x, int y);
+		void setCell(int x, int y, Areas a);
 };
 
 #endif
