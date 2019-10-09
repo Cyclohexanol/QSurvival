@@ -18,7 +18,7 @@ void Map::addArea(int x, int y, Areas a, int offset_x, int offset_y)
 {
   for (size_t i = offset_x; i < offset_x+x; i++)
   {
-    for (size_t j=offset_y; j<offset_y+y;j++)
+    for (size_t j = offset_y; j< offset_y+y; j++)
     {
       setCell(i,j,a);
     }
@@ -41,7 +41,7 @@ void Map::print()
 {
   for (size_t i = 0; i < row; i++)
   {
-    for (size_t j=0; j<col;j++)
+    for (size_t j=0; j< col; j++)
     {
       cout <<getCell(i,j)<<" ";
     }
