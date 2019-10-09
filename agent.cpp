@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "agent.h"
+#include "Map.h"
 
 using namespace std;
 

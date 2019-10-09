@@ -1,37 +1,53 @@
 // I HOPE THIS IS WHAT YOU WERE LOOKING FOR, IF NOT PLEASE TELL ME.
 // I AM TRYING TO BE ON THE SMAE PAGE AS YOU SO I AM ALSO WRTING SOME OTHER CODE TO DO THIS DIFFERENTLY.
-
+#include "Map.h"
 #include <iostream>
 #include <string>
 
-#define GRID_SIZE 10
-
 using namespace std;
 
+Map::Map() {
 
-int main (int argc, char *argv[])
+  grid = new char *[10];
+  for (size_t i = 0; i < 10; i++) {
+    grid[i] = new char[10];
+  }
 
-{
-  char grid[GRID_SIZE][GRID_SIZE];
   int number = 1;
 
-    for (int i = 0; i < GRID_SIZE; i++)
+    for (int i = 0; i < 10; i++)
     {
-        for (int j = 0; j < GRID_SIZE; j++)
+        for (int j = 0; j < 10; j++)
         {
           grid[i][j] = to_string(number).c_str()[0];
           number += 1;
         }
     }
-        printf("\n----------------------------------------\n");
 
-    for (int i = 0; i < GRID_SIZE; i++)
-    {
-        for (int j = 0; j < GRID_SIZE; j++)
-        {
-          printf(" %c *", grid[i][j]);
-        }
-        printf("\n----------------------------------------\n");
-    }
+}
+
+void Map::print() {
+  printf("\n----------------------------------------\n");
+
+for (int i = 0; i < 10; i++)
+{
+  for (int j = 0; j < 10; j++)
+  {
+    printf(" %c *", grid[i][j]);
+  }
+  printf("\n----------------------------------------\n");
+}
+}
+
+char Map::getCell(int x, int y) {
+  return '_';
+}
+
+
+int main (int argc, char *argv[])
+
+{ 
+    Map * m = new Map();
+    m->print();
     return 0;
 }
