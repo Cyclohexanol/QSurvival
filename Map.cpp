@@ -1,53 +1,82 @@
-// I HOPE THIS IS WHAT YOU WERE LOOKING FOR, IF NOT PLEASE TELL ME.
-// I AM TRYING TO BE ON THE SMAE PAGE AS YOU SO I AM ALSO WRTING SOME OTHER CODE TO DO THIS DIFFERENTLY.
-#include "Map.h"
+#include "map.h"
 #include <iostream>
 #include <string>
 
 using namespace std;
 
-Map::Map() {
+Map::Map(int x, int y)
 
-  grid = new char *[10];
-  for (size_t i = 0; i < 10; i++) {
-    grid[i] = new char[10];
-  }
-
-  int number = 1;
-
-    for (int i = 0; i < 10; i++)
-    {
-        for (int j = 0; j < 10; j++)
-        {
-          grid[i][j] = to_string(number).c_str()[0];
-          number += 1;
-        }
-    }
-
-}
-
-void Map::print() {
-  printf("\n----------------------------------------\n");
-
-for (int i = 0; i < 10; i++)
 {
-  for (int j = 0; j < 10; j++)
+  row=y;
+  col=x;
+  grid.resize(x*y);
+  addArea(x,y,Land);
+}
+
+void Map::addArea(int x, int y, Areas a, int offset_x, int offset_y)
+
+{
+  for (size_t i = offset_x; i < offset_x+x; i++)
   {
-    printf(" %c *", grid[i][j]);
+    for (size_t j=offset_y; j<offset_y+y;j++)
+    {
+      setCell(i,j,a);
+    }
   }
-  printf("\n----------------------------------------\n");
-}
 }
 
-char Map::getCell(int x, int y) {
-  return '_';
+void Map::setCell(int x, int y, Areas a)
+
+{
+  if (x>=col)
+  {return;}
+  if (y>=row)
+  {return;}
+
+  grid[x*col+y]=a;
 }
 
+void Map::print()
 
-int main (int argc, char *argv[]) {
+{
+  for (size_t i = 0; i < row; i++)
+  {
+    for (size_t j=0; j<col;j++)
+    {
+      cout <<getCell(i,j)<<" ";
+    }
+    cout<<endl;
+  }
+}
 
-    Map * m = new Map();
-    m->print();
+char Map::getCell(int x, int y)
+
+{
+  if (x>=col){return 'x';}
+  if (y>=row){return 'x';}
+
+  if (grid[x*col+y]==Water){return 'W';}
+  if (grid[x*col+y]==Food){return 'F';}
+  return 'L';
+}
+
+int main (int argc, char *argv[])
+
+{
+  int col=20;
+  int row=20;
+
+  Map *m = new Map(col,row);
+
+  m->addArea(7,7,Water);
+  m->addArea(3,3,Food,col-4,row-4);
+  m->addArea(3,3,Food,col-8,row-17);
+  m->print();
+
+  cout<<endl;
+  cout<<endl;
+  cout<< "Well there you go Ambroise, it took me a while to read and understand but tadaaaa :)\n";
+  cout<<endl;
+  
     return 0;
-    
 }
