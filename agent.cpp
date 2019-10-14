@@ -4,11 +4,13 @@
 #include <stdlib.h>
 #include <time.h>
 #include "agent.h"
-#include "Map.h"
 
 using namespace std;
 
-int Agent::nbActions = 10000;
+#define X 5
+#define Y 5
+
+int Agent::nbActions = 100;
 int Agent::initThirst = 500;
 int Agent::initHunger = 2000;
 int Agent::initEnergy = 5000;
@@ -50,22 +52,33 @@ Agent::Agent() {
 		}
 	}
 
-	reset();
+	reset(X,Y);
 }
 
-Agent::Agent(Agent parent, bool mutate) {
-	actions
+Agent::Agent(Agent * parent, bool mutate) {
+	/*Iterator<char> itr = parent->actions.iterator();
 
-	reset();
+	while (itr.hasNext()) {
+		actions.push(itr.next());
+	}*/
+
+	reset(X,Y);
 }
 
-bool live(Map map) {
+bool Agent::live() {
 	// TODO
 	return true;
 }
-void reset() {
+void Agent::reset(int x, int y) {
 	thirst = Agent::initThirst;
 	hunger = Agent::initHunger;
 	energy = Agent::initEnergy;
 	alive = true;
+	x = x;
+	y = y;
+	actionsQueue = actions;
+}
+
+int main() {
+	return 0;
 }

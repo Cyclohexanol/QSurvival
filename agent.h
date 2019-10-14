@@ -4,17 +4,16 @@
 class Agent {
 	private:
 
-		static final int nbActions, initThirst, initEnergy, initHunger;
-
-		std::queue<char> actions;
-		int thrist, hunger, energy;
+		std::queue<char> actions, actionsQueue;
+		int thirst, hunger, energy, x, y;
 		bool alive;
 
 	public:
+		static int nbActions, initThirst, initEnergy, initHunger;
 		Agent();
-		Agent(Agent parent, bool mutate);
-		bool live(Map map);
-		void reset();
+		Agent(Agent * parent, bool mutate);
+		bool live();
+		void reset(int x, int y);
 };
 
 #endif

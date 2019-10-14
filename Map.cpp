@@ -42,12 +42,3 @@ for (int i = 0; i < 10; i++)
 char Map::getCell(int x, int y) {
   return '_';
 }
-
-
-int main (int argc, char *argv[]) {
-
-    Map * m = new Map();
-    m->print();
-    return 0;
-    
-}
