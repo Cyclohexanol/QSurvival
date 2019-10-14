@@ -59,8 +59,8 @@ void Map::print()
 Areas Map::getCell(int x, int y)
 
 {
-  if (x>=col){return OutOfArea;}
-  if (y>=row){return OutOfArea;}
+  if (x < 0 || x>=col){return OutOfArea;}
+  if (y < 0 || y>=row){return OutOfArea;}
 
   return grid[x*col+y];
 }
@@ -74,11 +74,6 @@ int main (int argc, char *argv[])
   Map *m = new Map(col,row);
 
   m->print();
-
-  cout<<endl;
-  cout<<endl;
-  cout<< "Well there you go Ambroise, it took me a while to read and understand but tadaaaa :)\n";
-  cout<<endl;
 
     return 0;
 }*/
