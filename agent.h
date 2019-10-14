@@ -6,7 +6,7 @@
 class Agent {
 	private:
 
-		int thirst, hunger, energy, x, y;
+		int thirst, hunger, energy, x, y, score;
 		std::queue<char> actions, actionsQueue;
 		bool alive;
 
@@ -21,6 +21,7 @@ class Agent {
 		bool isAlive();
 		int getX();
 		int getY();
+		int getScore();
 };
 
 #endif

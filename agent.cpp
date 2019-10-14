@@ -73,10 +73,13 @@ bool Agent::live(Map * m) {
 	thirst -= 2;
 	hunger -= 2;
 	energy -= 2;
+	score++;
 
 	if(thirst <= 0 || hunger <= 0 || energy <= 0) {
+		std::cout << "DEAD ! : score - "<< score << " | energy - " << energy <<" | thirst - "<< thirst <<" | hunger - "<< hunger << '\n';
 		return alive = false;
 	}
+
 
 	char a = actionsQueue.front();
 	actionsQueue.pop();
@@ -116,7 +119,7 @@ bool Agent::live(Map * m) {
 			break;
 	}
 
-	std::cout << a << " [" << x << "," << y << "]\n";
+	std::cout << a << " [" << x << "," << y << "] : energy - " << energy <<" | thirst - "<< thirst <<" | hunger - "<< hunger << "\n";
 
 	return true;
 }
@@ -128,6 +131,7 @@ void Agent::reset() {
 	alive = true;
 	x = X;
 	y = Y;
+	score = 0;
 	actionsQueue = actions;
 }
 
@@ -147,6 +151,10 @@ int Agent::getY() {
 	return y;
 }
 
+int Agent::getScore() {
+	return score;
+}
+
 int main() {
 	Map * m = new Map(20,20);
 
@@ -161,7 +169,7 @@ int main() {
 	  {
 	    for (size_t j=0; j < m->getCol(); j++)
 	    {
-				if(i == a->getX() && j == a->getY()) cout << "@ ";
+				if(i == a->getX() && j == a->getY()) cout << "☺ ";
 				else {
 					if(m->getCell(i,j) == Food) c = 'F';
 		      else if(m->getCell(i,j) == Water) c = '~';
