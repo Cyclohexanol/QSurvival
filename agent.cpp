@@ -65,8 +65,42 @@ Agent::Agent(Agent * parent, bool mutate) {
 	reset(X,Y);
 }
 
-bool Agent::live() {
-	// TODO
+bool Agent::live(map m) {
+
+	if(!alive) return false;
+
+	thirst -= 2;
+	hunger -= 2;
+	energy -= 2;
+
+	if(thirst <= 0 || hunger <= 0 || energy <= 0) {
+		return alive = false;
+	}
+
+	char a = actionsQueue.pop();
+
+	switch (a) {
+		case('u'):
+			if(m.walkable())
+			break;
+		case('d'):
+			break;
+		case('l'):
+			break;
+		case('r'):
+			break;
+		case('s'):
+			break;
+		case('e'):
+			break;
+		case('d'):
+			break;
+		case('_'):
+			break;
+		default:
+			break;
+	}
+
 	return true;
 }
 void Agent::reset(int x, int y) {

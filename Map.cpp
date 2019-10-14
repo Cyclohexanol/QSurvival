@@ -11,6 +11,9 @@ Map::Map(int x, int y)
   col=x;
   grid.resize(x*y);
   addArea(x,y,Land);
+  addArea(7,7,Water);
+  addArea(3,3,Food,col-4,row-4);
+  addArea(3,3,Food,col-8,row-17);
 }
 
 void Map::addArea(int x, int y, Areas a, int offset_x, int offset_y)
@@ -39,25 +42,27 @@ void Map::setCell(int x, int y, Areas a)
 void Map::print()
 
 {
+  char c;
   for (size_t i = 0; i < row; i++)
   {
     for (size_t j=0; j< col; j++)
     {
-      cout <<getCell(i,j)<<" ";
+      if(getCell(i,j) == Food) c = 'F';
+      else if(getCell(i,j) == Water) c = 'W';
+      else c = 'L';
+      cout <<c<<" ";
     }
     cout<<endl;
   }
 }
 
-char Map::getCell(int x, int y)
+Areas Map::getCell(int x, int y)
 
 {
-  if (x>=col){return 'x';}
-  if (y>=row){return 'x';}
+  if (x>=col){return OutOfArea;}
+  if (y>=row){return OutOfArea;}
 
-  if (grid[x*col+y]==Water){return 'W';}
-  if (grid[x*col+y]==Food){return 'F';}
-  return 'L';
+  return grid[x*col+y];
 }
 
 int main (int argc, char *argv[])
@@ -68,9 +73,6 @@ int main (int argc, char *argv[])
 
   Map *m = new Map(col,row);
 
-  m->addArea(7,7,Water);
-  m->addArea(3,3,Food,col-4,row-4);
-  m->addArea(3,3,Food,col-8,row-17);
   m->print();
 
   cout<<endl;

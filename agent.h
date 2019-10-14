@@ -12,7 +12,7 @@ class Agent {
 		static int nbActions, initThirst, initEnergy, initHunger;
 		Agent();
 		Agent(Agent * parent, bool mutate);
-		bool live();
+		bool live(map m);
 		void reset(int x, int y);
 };
 

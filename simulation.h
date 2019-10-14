@@ -2,8 +2,12 @@
 #define __SIMULATION_H__
 
 class Simulation {
-	
+	private:
+		void live();
 
+	public:
+		void run();
+		
 
 };
 

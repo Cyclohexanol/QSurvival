@@ -22,14 +22,16 @@ class Map
 		int row;
 		int col;
 
+		void addArea(int x, int y, Areas v, int offset_x=0, int offset_y=0); // Using offsets to limit the premacies
+    void setCell(int x, int y, Areas a);
+
 	public:
 
 		Map(int x, int y);
-		void addArea(int x, int y, Areas v, int offset_x=0, int offset_y=0); // Using offsets to limit the premacies
 
 		void print();
-		char getCell(int x, int y);
-		void setCell(int x, int y, Areas a);
+		Areas getCell(int x, int y);
+
 };
 
 #endif
