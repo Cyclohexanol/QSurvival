@@ -64,7 +64,7 @@ Areas Map::getCell(int x, int y)
 
   return grid[x*col+y];
 }
-
+/*
 int main (int argc, char *argv[])
 
 {
@@ -81,4 +81,4 @@ int main (int argc, char *argv[])
   cout<<endl;
 
     return 0;
-}
+}*/

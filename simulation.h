@@ -4,10 +4,11 @@
 class Simulation {
 	private:
 		void live();
+		void printWorld();
 
 	public:
 		void run();
-		
+
 
 };
 

@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "agent.h"
+##include "map.h"
 
 using namespace std;
 
@@ -81,28 +82,42 @@ bool Agent::live(map m) {
 
 	switch (a) {
 		case('u'):
-			if(m.walkable())
+			if(m.getCell(x-1,y) == Land) x -= 1;
 			break;
 		case('d'):
+			if(m.getCell(x+1,y) == Land) x += 1;
 			break;
 		case('l'):
+			if(m.getCell(x,y-1) == Land) y -= 1;
 			break;
 		case('r'):
+			if(m.getCell(x,y+1) == Land) y += 1;
 			break;
 		case('s'):
+			energy += 20;
+			if(energy > initEnergy) energy = initEnergy;
 			break;
 		case('e'):
+			if(getCell(x-1,y) == Food || getCell(x+1,y) == Food || getCell(x,y-1) == Food || getCell(x,y+1) == Food) {
+				hunger += 100;
+				if(hunger > initHunger) hunger = initHunger;
+			}
 			break;
 		case('d'):
-			break;
-		case('_'):
+			if(getCell(x-1,y) == Water || getCell(x+1,y) == Water || getCell(x,y-1) == Water || getCell(x,y+1) == Water) {
+				thirst += 250;
+				if(thirst > initThirst) thirst = initThirst;
+			}
 			break;
 		default:
 			break;
 	}
 
+	std::cout << a << " ";
+
 	return true;
 }
+
 void Agent::reset(int x, int y) {
 	thirst = Agent::initThirst;
 	hunger = Agent::initHunger;
