@@ -15,7 +15,7 @@ class Agent {
 		static int nbActions, initThirst, initEnergy, initHunger;
 		Agent();
 		Agent(Agent * parent, bool mutate);
-		bool live(Map * m);
+		bool live(Map * m, bool log);
 		void reset();
 		bool emptyQueue();
 		bool isAlive();

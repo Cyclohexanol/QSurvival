@@ -66,7 +66,7 @@ Agent::Agent(Agent * parent, bool mutate) {
 	reset();
 }
 
-bool Agent::live(Map * m) {
+bool Agent::live(Map * m, bool log) {
 
 	if(!alive) return false;
 
@@ -76,7 +76,7 @@ bool Agent::live(Map * m) {
 	score++;
 
 	if(thirst <= 0 || hunger <= 0 || energy <= 0) {
-		std::cout << "DEAD ! : score - "<< score << " | energy - " << energy <<" | thirst - "<< thirst <<" | hunger - "<< hunger << '\n';
+		if(log) std::cout << "DEAD ! : score - "<< score << " | energy - " << energy <<" | thirst - "<< thirst <<" | hunger - "<< hunger << '\n';
 		return alive = false;
 	}
 
@@ -119,7 +119,7 @@ bool Agent::live(Map * m) {
 			break;
 	}
 
-	std::cout << a << " [" << x << "," << y << "] : energy - " << energy <<" | thirst - "<< thirst <<" | hunger - "<< hunger << "\n";
+	if(log) std::cout << a << " [" << x << "," << y << "] : energy - " << energy <<" | thirst - "<< thirst <<" | hunger - "<< hunger << "\n";
 
 	return true;
 }

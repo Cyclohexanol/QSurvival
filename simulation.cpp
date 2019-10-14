@@ -35,32 +35,21 @@ void Simulation::run(bool log) {
 	Agent * a = new Agent();
 
 	while(a->isAlive() && !a->emptyQueue()) {
-		system("clear");
-		a->live(m);
+		if(log) system("clear");
+		a->live(m,log);
 
-	  char c;
-	  for (size_t i = 0; i < m->getRow(); i++)
-	  {
-	    for (size_t j=0; j < m->getCol(); j++)
-	    {
-				if(i == a->getX() && j == a->getY()) cout << "☺ ";
-				else {
-					if(m->getCell(i,j) == Food) c = 'F';
-		      else if(m->getCell(i,j) == Water) c = '~';
-		      else c = '.';
-		      cout <<c<<" ";
-				}
+		if(log){
+			printWorld(a,m);
 
-	    }
-	    cout<<endl;
-	  }
-
-		usleep(100000);
-
+			usleep(100000);
+		}
 	}
+
+	std::cout << "Score : " << a->getScore() << '\n';
 }
 
 int main() {
 	Simulation * s = new Simulation();
-	s->run(false);
+	s->run(true);
+
 }
