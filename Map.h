@@ -31,6 +31,8 @@ class Map
 
 		void print();
 		Areas getCell(int x, int y);
+    int getCol();
+    int getRow();
 
 };
 

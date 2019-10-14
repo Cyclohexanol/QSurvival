@@ -64,6 +64,15 @@ Areas Map::getCell(int x, int y)
 
   return grid[x*col+y];
 }
+
+int Map::getCol() {
+   return col;
+}
+
+int Map::getRow() {
+   return row;
+}
+
 /*
 int main (int argc, char *argv[])
 

@@ -3,15 +3,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <unistd.h>
 #include "agent.h"
-##include "map.h"
 
 using namespace std;
 
-#define X 5
-#define Y 5
+#define X 10
+#define Y 10
 
-int Agent::nbActions = 100;
+int Agent::nbActions = 1000;
 int Agent::initThirst = 500;
 int Agent::initHunger = 2000;
 int Agent::initEnergy = 5000;
@@ -43,7 +43,7 @@ Agent::Agent() {
 				actions.push('e');
 				break;
 			case(6):
-				actions.push('d');
+				actions.push('w');
 				break;
 			case(7):
 				actions.push('_');
@@ -53,7 +53,7 @@ Agent::Agent() {
 		}
 	}
 
-	reset(X,Y);
+	reset();
 }
 
 Agent::Agent(Agent * parent, bool mutate) {
@@ -63,10 +63,10 @@ Agent::Agent(Agent * parent, bool mutate) {
 		actions.push(itr.next());
 	}*/
 
-	reset(X,Y);
+	reset();
 }
 
-bool Agent::live(map m) {
+bool Agent::live(Map * m) {
 
 	if(!alive) return false;
 
@@ -78,33 +78,36 @@ bool Agent::live(map m) {
 		return alive = false;
 	}
 
-	char a = actionsQueue.pop();
+	char a = actionsQueue.front();
+	actionsQueue.pop();
 
 	switch (a) {
 		case('u'):
-			if(m.getCell(x-1,y) == Land) x -= 1;
+			if(m->getCell(x-1,y) == Areas::Land) x -= 1;
 			break;
 		case('d'):
-			if(m.getCell(x+1,y) == Land) x += 1;
+			if(m->getCell(x+1,y) == Areas::Land) x += 1;
 			break;
 		case('l'):
-			if(m.getCell(x,y-1) == Land) y -= 1;
+			if(m->getCell(x,y-1) == Areas::Land) y -= 1;
 			break;
 		case('r'):
-			if(m.getCell(x,y+1) == Land) y += 1;
+			if(m->getCell(x,y+1) == Areas::Land) y += 1;
 			break;
 		case('s'):
 			energy += 20;
 			if(energy > initEnergy) energy = initEnergy;
 			break;
 		case('e'):
-			if(getCell(x-1,y) == Food || getCell(x+1,y) == Food || getCell(x,y-1) == Food || getCell(x,y+1) == Food) {
+			if(m->getCell(x-1,y) == Areas::Food || m->getCell(x+1,y) == Areas::Food || m->getCell(x,y-1)
+				== Areas::Food || m->getCell(x,y+1) == Areas::Food) {
 				hunger += 100;
 				if(hunger > initHunger) hunger = initHunger;
 			}
 			break;
-		case('d'):
-			if(getCell(x-1,y) == Water || getCell(x+1,y) == Water || getCell(x,y-1) == Water || getCell(x,y+1) == Water) {
+		case('w'):
+			if(m->getCell(x-1,y) == Areas::Water || m->getCell(x+1,y) == Areas::Water || m->getCell(x,y-1)
+				== Areas::Water || m->getCell(x,y+1) == Areas::Water) {
 				thirst += 250;
 				if(thirst > initThirst) thirst = initThirst;
 			}
@@ -113,21 +116,67 @@ bool Agent::live(map m) {
 			break;
 	}
 
-	std::cout << a << " ";
+	std::cout << a << " [" << x << "," << y << "]\n";
 
 	return true;
 }
 
-void Agent::reset(int x, int y) {
+void Agent::reset() {
 	thirst = Agent::initThirst;
 	hunger = Agent::initHunger;
 	energy = Agent::initEnergy;
 	alive = true;
-	x = x;
-	y = y;
+	x = X;
+	y = Y;
 	actionsQueue = actions;
 }
 
+bool Agent::isAlive() {
+	return alive;
+}
+
+bool Agent::emptyQueue() {
+	return actionsQueue.empty();
+}
+
+int Agent::getX() {
+	return x;
+}
+
+int Agent::getY() {
+	return y;
+}
+
 int main() {
+	Map * m = new Map(20,20);
+
+	Agent * a = new Agent();
+
+	while(a->isAlive() && !a->emptyQueue()) {
+		system("clear");
+		a->live(m);
+
+	  char c;
+	  for (size_t i = 0; i < m->getRow(); i++)
+	  {
+	    for (size_t j=0; j < m->getCol(); j++)
+	    {
+				if(i == a->getX() && j == a->getY()) cout << "@ ";
+				else {
+					if(m->getCell(i,j) == Food) c = 'F';
+		      else if(m->getCell(i,j) == Water) c = '~';
+		      else c = '.';
+		      cout <<c<<" ";
+				}
+
+	    }
+	    cout<<endl;
+	  }
+
+		usleep(100000);
+
+	}
+
+
 	return 0;
 }
