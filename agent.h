@@ -1,7 +1,7 @@
 #ifndef __AGENT_H__
 #define __AGENT_H__
 
-#include "map.cpp"
+#include "map.h"
 
 class Agent {
 	private:

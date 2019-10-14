@@ -2,12 +2,10 @@
 #define __SIMULATION_H__
 
 class Simulation {
-	private:
-		void live();
-		void printWorld();
 
 	public:
-		void run();
+		void run(bool log);
+		void printWorld(Agent * a, Map * m);
 
 
 };

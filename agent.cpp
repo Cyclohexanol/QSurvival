@@ -155,6 +155,7 @@ int Agent::getScore() {
 	return score;
 }
 
+/*
 int main() {
 	Map * m = new Map(20,20);
 
@@ -187,4 +188,4 @@ int main() {
 
 
 	return 0;
-}
+}*/
