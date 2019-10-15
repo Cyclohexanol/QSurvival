@@ -8,60 +8,41 @@
 
 using namespace std;
 
-#define X 10
-#define Y 10
+#define X 25
+#define Y 25
 
-int Agent::nbActions = 1000;
+int Agent::idCount = 0;
+int Agent::nbActions = 2000;
 int Agent::initThirst = 500;
 int Agent::initHunger = 2000;
 int Agent::initEnergy = 5000;
 
 Agent::Agent() {
-	srand (time(NULL));
+	id = Agent::idCount++;
+	score = 0;
 	int a = 0;
 
 	for (size_t i = 0; i < Agent::nbActions; i++) {
-		a = rand() % 8;
-
-		switch(a) {
-			case(0):
-				actions.push('u');
-				break;
-			case(1):
-				actions.push('d');
-				break;
-			case(2):
-				actions.push('l');
-				break;
-			case(3):
-				actions.push('r');
-				break;
-			case(4):
-				actions.push('s');
-				break;
-			case(5):
-				actions.push('e');
-				break;
-			case(6):
-				actions.push('w');
-				break;
-			case(7):
-				actions.push('_');
-				break;
-			default:
-				actions.push('_');
-		}
+		actions.push_back(randAction());
 	}
 
 	reset();
 }
 
 Agent::Agent(Agent * parent, bool mutate) {
-	/*Iterator<char> itr = parent->actions.iterator();
 
-	while (itr.hasNext()) {
-		actions.push(itr.next());
-	}*/
+	score = 0;
+	id = Agent::idCount++;
+
+	bool mut;
+
+	for (size_t i = 0; i < parent->actions.size(); i++) {
+		mut = rand() % 4 == 0;
+		if(!mut || !mutate) actions.push_back(parent->actions[i]);
+		else {
+			actions.push_back(randAction());
+		}
+	}
 
 	reset();
 }
@@ -87,15 +68,23 @@ bool Agent::live(Map * m, bool log) {
 	switch (a) {
 		case('u'):
 			if(m->getCell(x-1,y) == Areas::Land) x -= 1;
+			energy -= 10;
+			hunger -= 5;
 			break;
 		case('d'):
 			if(m->getCell(x+1,y) == Areas::Land) x += 1;
+			energy -= 10;
+			hunger -= 5;
 			break;
 		case('l'):
 			if(m->getCell(x,y-1) == Areas::Land) y -= 1;
+			energy -= 10;
+			hunger -= 5;
 			break;
 		case('r'):
 			if(m->getCell(x,y+1) == Areas::Land) y += 1;
+			energy -= 10;
+			hunger -= 5;
 			break;
 		case('s'):
 			energy += 20;
@@ -105,6 +94,7 @@ bool Agent::live(Map * m, bool log) {
 			if(m->getCell(x-1,y) == Areas::Food || m->getCell(x+1,y) == Areas::Food || m->getCell(x,y-1)
 				== Areas::Food || m->getCell(x,y+1) == Areas::Food) {
 				hunger += 100;
+				energy -= 10;
 				if(hunger > initHunger) hunger = initHunger;
 			}
 			break;
@@ -112,6 +102,7 @@ bool Agent::live(Map * m, bool log) {
 			if(m->getCell(x-1,y) == Areas::Water || m->getCell(x+1,y) == Areas::Water || m->getCell(x,y-1)
 				== Areas::Water || m->getCell(x,y+1) == Areas::Water) {
 				thirst += 250;
+				energy -= 10;
 				if(thirst > initThirst) thirst = initThirst;
 			}
 			break;
@@ -119,7 +110,8 @@ bool Agent::live(Map * m, bool log) {
 			break;
 	}
 
-	if(log) std::cout << a << " [" << x << "," << y << "] : energy - " << energy <<" | thirst - "<< thirst <<" | hunger - "<< hunger << "\n";
+	if(log) std::cout << a << " [" << x << "," << y << "] * id - " << id <<" * : energy - "
+		<< energy <<" | thirst - "<< thirst <<" | hunger - "<< hunger << "\n";
 
 	return true;
 }
@@ -131,8 +123,11 @@ void Agent::reset() {
 	alive = true;
 	x = X;
 	y = Y;
-	score = 0;
-	actionsQueue = actions;
+	while(!actionsQueue.empty()) actionsQueue.pop();
+
+	for (size_t i = 0; i < actions.size(); i++) {
+		actionsQueue.push(actions[i]);
+	}
 }
 
 bool Agent::isAlive() {
@@ -155,37 +150,31 @@ int Agent::getScore() {
 	return score;
 }
 
-/*
-int main() {
-	Map * m = new Map(20,20);
+int Agent::getID() {
+	return id;
+}
 
-	Agent * a = new Agent();
+char Agent::randAction() {
+	int a = rand() % 8;
 
-	while(a->isAlive() && !a->emptyQueue()) {
-		system("clear");
-		a->live(m);
-
-	  char c;
-	  for (size_t i = 0; i < m->getRow(); i++)
-	  {
-	    for (size_t j=0; j < m->getCol(); j++)
-	    {
-				if(i == a->getX() && j == a->getY()) cout << "☺ ";
-				else {
-					if(m->getCell(i,j) == Food) c = 'F';
-		      else if(m->getCell(i,j) == Water) c = '~';
-		      else c = '.';
-		      cout <<c<<" ";
-				}
-
-	    }
-	    cout<<endl;
-	  }
-
-		usleep(100000);
-
+	switch(a) {
+		case(0):
+			return 'u';
+		case(1):
+			return 'd';
+		case(2):
+			return 'l';
+		case(3):
+			return 'r';
+		case(4):
+			return 's';
+		case(5):
+			return 'e';
+		case(6):
+			return 'w';
+		case(7):
+			return '_';
+		default:
+			return '_';
 	}
-
-
-	return 0;
-}*/
+}

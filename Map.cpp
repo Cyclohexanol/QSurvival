@@ -4,16 +4,22 @@
 
 using namespace std;
 
-Map::Map(int x, int y)
+#define HEIGHT 50
+#define WIDTH 50
+
+Map::Map()
 
 {
-  row=y;
-  col=x;
-  grid.resize(x*y);
-  addArea(x,y,Land);
-  addArea(7,7,Water);
-  addArea(3,3,Food,col-4,row-4);
-  addArea(3,3,Food,col-8,row-17);
+  row=HEIGHT;
+  col=WIDTH;
+  grid.resize(WIDTH*HEIGHT);
+  addArea(WIDTH,HEIGHT,Land);
+  addArea(12,15,Water);
+  addArea(5,15,Water,45,25);
+  addArea(2,2,Water,27,27);
+  addArea(3,3,Food,40,43);
+  addArea(3,3,Food,16,37);
+  addArea(3,3,Food,35,10);
 }
 
 void Map::addArea(int x, int y, Areas a, int offset_x, int offset_y)

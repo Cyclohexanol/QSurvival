@@ -27,7 +27,7 @@ class Map
 
 	public:
 
-		Map(int x, int y);
+		Map();
 
 		void print();
 		Areas getCell(int x, int y);
