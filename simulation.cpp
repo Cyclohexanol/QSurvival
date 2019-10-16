@@ -68,12 +68,15 @@ void Simulation::run(bool log) {
 		simPop.push(a);
 	}
 
+	float avgScore;
+
 	// Run simulation on each agent of the generation (contained in simPop)
-	runGeneration(simPop,m,log);
+	avgScore = runGeneration(simPop,m,log);
 
 	// Print results of first generation
 	std::cout << "--------------------" << '\n';
 	std::cout << "Gen 1" << '\n';
+	std::cout << "Average score : " << avgScore << '\n';
 	std::cout << "Best agent : " << population.front()->getID() << " --  Score : " << population.front()->getScore() << '\n';
 	std::cout << "--------------------" << '\n';
 
@@ -117,10 +120,11 @@ void Simulation::run(bool log) {
 		}
 
 		// Run the simulation on every agent in simulation
-		runGeneration(simPop,m,log);
+		avgScore = runGeneration(simPop,m,log);
 
 		// Print result of current generation
 		std::cout << "Gen " << i+1 << '\n';
+		std::cout << "Average score : " << avgScore << '\n';
 		std::cout << "Best agent : " << population.front()->getID() << " --  Score : " << population.front()->getScore() << '\n';
 		std::cout << "--------------------" << '\n';
 	}
@@ -143,9 +147,11 @@ void Simulation::run(bool log) {
 	}
 }
 
-void Simulation::runGeneration(std::queue<Agent *> simPop, Map * m, bool log) {
+float Simulation::runGeneration(std::queue<Agent *> simPop, Map * m, bool log) {
 
 	Agent * a;
+	int size = simPop.size();
+	int totalScore = 0;
 
 	// Loop on all agents queued for the generation
 	while(!simPop.empty()) {
@@ -157,6 +163,8 @@ void Simulation::runGeneration(std::queue<Agent *> simPop, Map * m, bool log) {
 			if(log) system("clear");
 			a->live(m,false);
 		}
+
+		totalScore += a->getScore();
 
 		// Print the step information if log is activated
 		if(log) std::cout << "ID : " << a->getID() << " -- Score : " << a->getScore() << '\n';
@@ -170,6 +178,8 @@ void Simulation::runGeneration(std::queue<Agent *> simPop, Map * m, bool log) {
 
 	// Only keep the 100 fittest agent of the population to free memory
 	population.resize(100);
+
+	return (float)totalScore / size;
 }
 
 
