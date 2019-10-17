@@ -1,5 +1,4 @@
 #include <iostream>
-#include <queue>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -48,7 +47,7 @@ Agent::Agent(Agent * parent, bool mutate) {
 	// Loop through parents action vector
 	for (size_t i = 0; i < parent->actions.size(); i++) {
 		// Get a random bool with 1/4 probability of true
-		mut = rand() % 4 == 0;
+		mut = rand() % 12 == 0;
 
 		// Mutate the current action if mut == true and add it to the action vector
 		if(!mut || !mutate) actions.push_back(parent->actions[i]);

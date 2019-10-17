@@ -13,7 +13,7 @@ using namespace std;
 #define POPULATION_SIZE 100
 
 // Default number of generations used in the simulation
-#define GENERATIONS 100
+#define GENERATIONS 1000
 
 void Simulation::printWorld(Agent * a, Map * m) {
 
@@ -136,13 +136,16 @@ void Simulation::run(bool log) {
 
 	// If answered yes, display the life of the fittest agent
 	if(answer == 'y') {
+		int turns = 1;
 		a = population.front();
 		a->reset();
 		while(a->isAlive() && !a->emptyQueue()) {
 			system("clear");
 			a->live(m,true);
 			printWorld(a,m);
-			usleep(50000);
+			std::cout << "Turn : " << turns++ << '\n';
+			int fps = 30;
+			usleep(1000000/fps);
 		}
 	}
 }
